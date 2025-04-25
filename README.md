@@ -28,11 +28,14 @@ onshape-to-robot
 transforms3d
 scipy
 ```
+**il se peut que les librairies dépendent d'autres librairies, il faudra les installer aussi avec la commande ```pip install```.**
+
+
 
 ### Lancement
-Maintenant que tout est installé, vous pouvez lancer le projet en tapant la commande ```python main.py``` dans votre terminal et de sélectionner le mode que vous voulez sur l'interface graphique
+Maintenant que tout est installé, vous pouvez lancer le projet en tapant la commande ```python main.py``` dans votre terminal et sélectionner le mode que vous voulez sur l'interface graphique.
 
-une fois la simulation de l'haxapode lancée, vous pouvez controler ses déplacements grâce au joystick de l'interface graphique.
+Dans la simulation de l'haxapode lancée, vous pouvez controler ses déplacements grâce au joystick de l'interface graphique.
 
 
 ## Lancer le projet sur un hexapode réel
