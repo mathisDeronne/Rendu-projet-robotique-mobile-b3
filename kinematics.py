@@ -1,4 +1,5 @@
 import math
+import constants
 
 from constants import *
 import pybullet as p
@@ -303,6 +304,19 @@ def computeIKOriented(x, y, z,leg_id,angle):
     offset_x= 0.2
     offset_y= 0
     offset_z= -0.05
-    new_x, new_y, new_z= rotaton_2D(x, y, z,-LEG_ANGLES[leg_id-1]+angle)
+    new_x, new_y, new_z= rotaton_2D(x, y, z,-constants.LEG_ANGLES[leg_id-1]+angle)
     
     return computeIK(new_x+ offset_x, new_y+ offset_y, new_z+ offset_z)
+
+def circle(x, y, r, t, duration, leg_id=None):
+    angle = (t % duration) / duration * 2 * math.pi
+    target_x = x
+    target_y = y + r * math.cos(angle)
+    target_z = r * math.sin(angle)  # Adjusted to make the circle perpendicular to the ground
+    
+    if leg_id is None:
+        alpha = computeIK(target_x, target_y, target_z)
+    else:
+        alpha = computeIKOriented(target_x, target_y, target_z, leg_id, angle)
+    
+    return alpha
