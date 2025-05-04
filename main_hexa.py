@@ -48,7 +48,7 @@ while True:
             for m in range(3):
                 robot.legs[l][m].goal_position = thetas[m]
 
-    elif mode == "danse":
+    elif mode == "danse_tickbug":
 
         index_patte1 = [1,3,5]
         index_patte2 = [2,4,6]
