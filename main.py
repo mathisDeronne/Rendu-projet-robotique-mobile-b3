@@ -16,7 +16,8 @@ MODES_HEXA = [
     "marche",
     "tourne_droite",
     "tourne_gauche",
-    "danse_tickbug"
+    "danse_tickbug",
+    "autre"
 ]
 
 CONSTANTS_PATH = "constants.py"
