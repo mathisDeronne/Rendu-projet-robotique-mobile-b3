@@ -50,8 +50,18 @@ def clear_mode_buttons():
 
 def show_real_mode():
     clear_mode_buttons()
-    label = tk.Label(mode_frame, text="Mode Réel activé !", font=("Helvetica", 13), bg="#f0f0f0", fg="green")
-    label.pack(pady=20)
+
+    # Bouton pour lancer main_reel.py
+    btn = tk.Button(
+        mode_frame,
+        text="Lancer le Mode Réel",
+        font=("Helvetica", 13),
+        width=25,
+        bg="#FF5722",
+        fg="white",
+        command=lambda: subprocess.Popen([sys.executable, "main_reel.py"])
+    )
+    btn.pack(pady=20)
 
 def show_hexa_modes():
     set_robot_type("PHANTOMX_SIMULATION")
