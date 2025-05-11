@@ -64,7 +64,28 @@ while True:
                 robot.legs[l][m].goal_position = thetas[m]
 
     elif mode == "autre":
-        target_position = [0.5, 0.5]
+        # path = [
+        #     [0.5, -1],
+        #     [1, -1],
+        #     [1, 0],
+        #     [0.5, 0.5]
+        # ]
+
+        # current_target_index = 0  # Index du point courant
+
+        # while True:
+        #     p.stepSimulation()
+        #     sim.t += 0.03
+
+        #     if current_target_index < len(path):
+        #         reached = kinematics.goto_position(sim, robot, path[current_target_index])
+        #         if reached:
+        #             current_target_index += 1
+        #     else:
+        #         print("✅ Tous les points ont été atteints.")
+        #         break  
+
+        target_position = [0.5, -1]
         kinematics.goto_position(sim, robot, target_position)
         # sim.setRobotPose([0, 0, 0.5], [0, 0, 0, 1])        
 
