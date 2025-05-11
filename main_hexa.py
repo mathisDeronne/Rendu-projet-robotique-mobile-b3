@@ -64,7 +64,9 @@ while True:
                 robot.legs[l][m].goal_position = thetas[m]
 
     elif mode == "autre":
-        sim.setRobotPose([0, 0, 0.5], [0, 0, 0, 1])        
+        target_position = [0.5, 0.5]
+        kinematics.goto_position(sim, robot, target_position)
+        # sim.setRobotPose([0, 0, 0.5], [0, 0, 0, 1])        
 
     else:
         print(f"Mode inconnu : {mode}")

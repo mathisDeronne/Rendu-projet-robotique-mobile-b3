@@ -1,6 +1,8 @@
 import math
 from constants import *
 import pybullet as p # type: ignore
+import numpy as np
+import time
 
 DEFAULT_COMPUTE_IK_SIGN = -1
 
@@ -256,3 +258,51 @@ def triangle2(x, z, h, w, t, leg_id=None):
         (0, -w/2, z + h, z)
     ]
     return triangle_motion(x, z, h, w, t, sequence, leg_id)
+
+def goto_position(sim, robot, target_position):
+    # 2. Lire la position actuelle du robot
+    pos, _ = p.getBasePositionAndOrientation(sim.robot)
+    x, y, _ = pos
+    target_x, target_y = target_position
+
+    # 3. Calculer la distance entre la position actuelle et la position cible
+    dx = target_x - x
+    dy = target_y - y
+    distance = math.sqrt(dx**2 + dy**2)
+
+    if distance < 0.05:
+        print(f"✅ Position atteinte : {target_position}")
+        return
+
+    # 4. Calculer l'angle vers la cible
+    angle = math.atan2(dy, dx)
+
+    # 5. Définir les directions comme les touches z/q/s/d
+    directions = {
+        0: 0,                         # droite (d)
+        math.pi / 2: math.pi / 2,     # haut (z)
+        -math.pi / 2: -math.pi / 2,   # bas (s)
+        -math.pi: -math.pi            # gauche (q)
+    }
+
+    # 6. Trouver la direction la plus proche
+    closest = min(directions.keys(), key=lambda a: abs((a - angle + math.pi) % (2 * math.pi) - math.pi))
+    extra_angle = closest
+
+    # 7. Déplacer lentement vers la cible (en petits pas)
+    step_size = 0.001  # petit pas pour laisser le temps de l'animation
+    new_x = x + step_size * math.cos(extra_angle)
+    new_y = y + step_size * math.sin(extra_angle)
+    p.resetBasePositionAndOrientation(sim.robot, [new_x, new_y, pos[2]], [0, 0, 0, 1])
+
+    # 8. Animer les pattes du robot pour simuler le mouvement
+    for l in [1, 3, 5]:  # pour les jambes 1, 3, 5
+        thetas = triangle(extra_angle, -0.05, 0.03, 0.08, sim.t, leg_id=l)
+        for m in range(3):
+            robot.legs[l][m].goal_position = thetas[m]
+    
+    for l in [2, 4, 6]:  # pour les jambes 2, 4, 6
+        thetas = triangle(extra_angle, -0.05, 0.03, 0.08, sim.t + 1, leg_id=l)
+        for m in range(3):
+            robot.legs[l][m].goal_position = thetas[m]
+        
