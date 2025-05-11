@@ -29,7 +29,8 @@ bz = 0.25
 if args.mode == "direct":
     target = p.loadURDF("target2/robot.urdf")
     for joint in joints:
-        sliders[joint] = p.addUserDebugParameter(joint, -math.pi, math.pi, 0.0)
+        if str(joint).startswith("motor"):
+            sliders[joint] = p.addUserDebugParameter(joint, -math.pi, math.pi, 0.0)
 elif args.mode == "inverse" or args.mode == "inverse-iterative":
     target = p.loadURDF("target2/robot.urdf")
     sliders["target_x"] = p.addUserDebugParameter("target_x", -1, 1, 0.4)
