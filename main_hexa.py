@@ -50,7 +50,7 @@ while True:
             for m in range(3):
                 robot.legs[l][m].goal_position = thetas[m]
 
-    elif mode == "danse_tickbug":
+    elif mode == "danse_stickbug":
 
         index_patte1 = [1,3,5]
         index_patte2 = [2,4,6]
@@ -100,7 +100,7 @@ while True:
         for m in range(3):
             robot.legs[leg_id][m].goal_position = thetas[m]
 
-    elif mode == "mouvement_sens_mouvement":
+    elif mode == "Standing still animation":
         val=10*math.sin(time.time())*math.pi/180
 
         for m in robot.motors(): 
