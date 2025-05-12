@@ -39,3 +39,7 @@ Dans la simulation de l'haxapode lancée, vous pouvez controler ses déplacement
 
 
 ## Lancer le projet sur un hexapode réel
+
+Pour lancer le programme sur hexapode réel il faut relancer le programme ```main``` comme précédemment et il faut cliquer sur **"mode réel"** et sélectionner le mode que vous voulez.
+
+Lorsque vous avez fini avec un mode, cliquez sur **"arreter le mode actuel"** pour l'arreter
