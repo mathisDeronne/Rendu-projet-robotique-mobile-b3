@@ -9,6 +9,8 @@ import sys
 from signal import signal, SIGINT
 import traceback
 import os
+import sys
+
 
 
 def main():
@@ -54,14 +56,35 @@ def main():
         print("Init position reached")
         keep_going = True
         while keep_going:
-            print("Moving legs...")
-            setPositionToRobot(20, 0, 0, robot, params)  # Move legs forward
-            robot.smooth_tick_read_and_write(2, verbose=True)
-            time.sleep(1)
-            setPositionToRobot(-20, 0, 0, robot, params)  # Move legs backward
-            robot.smooth_tick_read_and_write(2, verbose=True)
-            print("Legs moved.")
-            time.sleep(2)
+
+             # squat
+
+            if len(sys.argv) > 1 and sys.argv[1] == "squat":
+                while True:  
+                    setPositionToRobot(0, 0, 15, robot, params)  
+                    robot.smooth_tick_read_and_write(0.5, verbose=True)  
+                    setPositionToRobot(0, 0, -15, robot, params)  
+                    robot.smooth_tick_read_and_write(0.5, verbose=True)
+
+             # avant en arriere
+
+            if len(sys.argv) > 1 and sys.argv[1] == "av_ar":
+                setPositionToRobot(20, 0, 0, robot, params)  
+                robot.smooth_tick_read_and_write(2, verbose=True)
+                setPositionToRobot(-20, 0, 0, robot, params)  
+                robot.smooth_tick_read_and_write(2, verbose=True)
+
+                # robot dance
+
+            if len(sys.argv) > 1 and sys.argv[1] == "dance":
+                while True:  
+                    setPositionToRobot(0, 20, 0, robot, params)  
+                    robot.smooth_tick_read_and_write(0.5, verbose=True)  
+                    setPositionToRobot(0, -20, 0, robot, params)  
+                    robot.smooth_tick_read_and_write(0.5, verbose=True)  
+            else:
+                print("No valid mode specified. Exiting loop.")
+                keep_going = False
         return
     except Exception as e:
         track = traceback.format_exc()
