@@ -1,9 +1,9 @@
 import pypot.dynamixel
 import time
 import math
-from utils import *
+from utils_reel import *
 import time
-from kinematics import *
+from kinematics_reel import *
 import math
 import sys
 from signal import signal, SIGINT
