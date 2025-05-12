@@ -64,7 +64,8 @@ while True:
     if sim.t > 1.0:
         if args.mode == "direct":
             for joint in joints:
-                targets[joint] = p.readUserDebugParameter(sliders[joint])
+                if joint in sliders: 
+                    targets[joint] = p.readUserDebugParameter(sliders[joint])
 
             T = kinematics.computeDK(
                 -targets["motor1"], -targets["motor2"], targets["motor3"]
