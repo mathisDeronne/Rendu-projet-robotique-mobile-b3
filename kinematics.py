@@ -193,7 +193,7 @@ def rotaton_2D(x, y, z, angle):
 # Fonction pour calculer la cinématique inverse orientée avec un angle spécifique
 def computeIKOriented(x, y, z, leg_id, angle=None):
     if angle is None: angle = 0
-
+    
     offset_x = 0.2
     offset_y = 0
     offset_z = -0.05
@@ -219,7 +219,7 @@ def interpol(p1, p2, ratio):
     return p1 + ratio * (p2 - p1)
 
 # Fonction qui effectue un mouvement en forme de triangle pour la jambe
-def triangle_motion(x, z, h, w, t, sequence, leg_id=None):
+def triangle_motion(x, z, h, w, t, sequence, leg_id=None, extratheta=0):
     extra_angle = get_extra_angle()
     phase = t % 2
 
@@ -239,16 +239,17 @@ def triangle_motion(x, z, h, w, t, sequence, leg_id=None):
     if leg_id is None:
         return computeIK(x, target_y, target_z)
     else:
-        return computeIKOriented(x, target_y, target_z, leg_id, extra_angle)
+        # print("etstet")
+        return computeIKOriented(x, target_y, target_z, leg_id, extra_angle+extratheta)
 
 # Fonction triangl 
-def triangle(x, z, h, w, t, leg_id=None):
+def triangle(x, z, h, w, t, leg_id=None, extratheta=0):
     sequence = [
         (w/2, -w/2, z, z),
         (-w/2, 0, z, z + h),
         (0, w/2, z + h, z)
     ]
-    return triangle_motion(x, z, h, w, t, sequence, leg_id)
+    return triangle_motion(x, z, h, w, t, sequence, leg_id, extratheta=extratheta)
 
 # Fonction triangle
 def triangle2(x, z, h, w, t, leg_id=None):
@@ -259,42 +260,38 @@ def triangle2(x, z, h, w, t, leg_id=None):
     ]
     return triangle_motion(x, z, h, w, t, sequence, leg_id)
 
-def goto_position(sim, robot, target_position, step_size=0.003, tolerance=0.02):
-    pos, ori = p.getBasePositionAndOrientation(sim.robot)
+def goto_position(sim, robot, target_position, step_size=0.003, tolerance=0.2):
+    # pos, ori = p.getBasePositionAndOrientation(sim.robot)
+    pos, ori = sim.getRobotPose()
     x, y, z = pos
+    roll, pitch, yaw = ori
     target_x, target_y = target_position
+
+    print(x , y )
+    print("---")
 
     dx = target_x - x
     dy = target_y - y
     distance = math.hypot(dx, dy)
+    print(dx)
+    print(dy)
 
     if distance < tolerance:
         print(f"✅ Position atteinte : {target_position}")
         return True
 
     angle = math.atan2(dy, dx)
-    original_get_extra_angle = get_extra_angle
+    extratheta = angle + yaw
+    print(angle)
+    print(extratheta)
 
-    def override_get_extra_angle():
-        return angle
-
-    globals()['get_extra_angle'] = override_get_extra_angle
-
-    # Animation des jambes 
     for l in [1, 3, 5]:
-        thetas = triangle(0, -0.05, 0.03, 0.08, sim.t, leg_id=l)
+        thetas = triangle(0, -0.05, 0.03, 0.08, sim.t, leg_id=l, extratheta=extratheta)
         for m in range(3):
             robot.legs[l][m].goal_position = thetas[m]
     for l in [2, 4, 6]:
-        thetas = triangle(0, -0.05, 0.03, 0.08, sim.t + 1, leg_id=l)
+        thetas = triangle(0, -0.05, 0.03, 0.08, sim.t + 1, leg_id=l, extratheta=extratheta)
         for m in range(3):
             robot.legs[l][m].goal_position = thetas[m]
-
-    # Avancer le robot d'un petit pas
-    new_x = x + step_size * math.cos(angle)
-    new_y = y + step_size * math.sin(angle)
-    p.resetBasePositionAndOrientation(sim.robot, [new_x, new_y, z], ori) # je ne sais pas pourquoi sa tp le robot cette ligne ??
-
-    globals()['get_extra_angle'] = original_get_extra_angle
-
-    return False
+    return           
+    

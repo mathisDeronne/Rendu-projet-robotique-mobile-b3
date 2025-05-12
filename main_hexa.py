@@ -3,6 +3,8 @@ from utils import SimpleRobotSimulation
 from onshape_to_robot.simulation import Simulation  # type: ignore
 import kinematics
 import pybullet as p  # type: ignore
+import math
+import time
 
 # === Argument parser pour choisir le mode ===
 parser = argparse.ArgumentParser()
@@ -97,6 +99,12 @@ while True:
         
         for m in range(3):
             robot.legs[leg_id][m].goal_position = thetas[m]
+
+    elif mode == "mouvement_sens_mouvement":
+        val=10*math.sin(time.time())*math.pi/180
+
+        for m in robot.motors(): 
+            m.goal_position=val
 
     else:
         print(f"Mode inconnu : {mode}")
