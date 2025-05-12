@@ -54,7 +54,13 @@ def main():
         print("Init position reached")
         keep_going = True
         while keep_going:
-            print("A vous de bosser")
+            print("Moving legs...")
+            setPositionToRobot(20, 0, 0, robot, params)  # Move legs forward
+            robot.smooth_tick_read_and_write(2, verbose=True)
+            time.sleep(1)
+            setPositionToRobot(-20, 0, 0, robot, params)  # Move legs backward
+            robot.smooth_tick_read_and_write(2, verbose=True)
+            print("Legs moved.")
             time.sleep(2)
         return
     except Exception as e:
