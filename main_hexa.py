@@ -89,6 +89,15 @@ while True:
         kinematics.goto_position(sim, robot, target_position)
         # sim.setRobotPose([0, 0, 0.5], [0, 0, 0, 1])        
 
+    elif mode == "move_leg":
+        leg_id = 1
+        x, y, z = 0.05, 0.0, -0.08
+
+        thetas = kinematics.computeIK(x, y, z)
+        
+        for m in range(3):
+            robot.legs[leg_id][m].goal_position = thetas[m]
+
     else:
         print(f"Mode inconnu : {mode}")
 
