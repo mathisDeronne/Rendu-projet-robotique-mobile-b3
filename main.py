@@ -16,9 +16,9 @@ MODES_HEXA = [
     "marche",
     "tourne_droite",
     "tourne_gauche",
-    "danse_tickbug",
+    "danse_stickbug",
     "autre",
-    "mouvement_sens_mouvement"
+    "Standing still animation"
 ]
 
 CONSTANTS_PATH = "constants.py"

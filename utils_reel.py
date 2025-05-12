@@ -1,7 +1,7 @@
 import time
 
-from constants import *
-from kinematics import *
+from constants_reel import *
+from kinematics_reel import *
 
 
 class Parameters:
