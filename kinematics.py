@@ -260,31 +260,37 @@ def triangle2(x, z, h, w, t, leg_id=None):
     ]
     return triangle_motion(x, z, h, w, t, sequence, leg_id)
 
+import math
+import pybullet as p
+
 def goto_position(sim, robot, target_position, step_size=0.003, tolerance=0.2):
-    # pos, ori = p.getBasePositionAndOrientation(sim.robot)
-    pos, ori = sim.getRobotPose()
+    # Récupère la position et orientation du robot
+    pos, ori = sim.getRobotPose()  # Tu utilises déjà ta méthode personnalisée
     x, y, z = pos
-    roll, pitch, yaw = ori
+    roll, pitch, yaw = ori  # Déjà en euler angles d'après ton code
     target_x, target_y = target_position
 
-    print(x , y )
-    print("---")
-
+    # Calcul des distances et angles
     dx = target_x - x
     dy = target_y - y
     distance = math.hypot(dx, dy)
-    print(dx)
-    print(dy)
 
+    # Direction vers la cible
+    angle = math.atan2(dy, -dx)
+    extratheta = angle - yaw
+
+    # Si proche de la cible
     if distance < tolerance:
         print(f"✅ Position atteinte : {target_position}")
         return True
 
-    angle = math.atan2(dy, dx)
-    extratheta = angle + yaw
-    print(angle)
-    print(extratheta)
+    # >>> Ajout ici : déplace légèrement la base du robot dans la direction
+    move_x = step_size * (dx / distance)
+    move_y = step_size * (dy / distance)
+    new_pos = [x + move_x, y + move_y, z]
+    # p.resetBasePositionAndOrientation(sim.robot, new_pos, p.getQuaternionFromEuler([roll, pitch, yaw]))
 
+    # Animation des jambes
     for l in [1, 3, 5]:
         thetas = triangle(0, -0.05, 0.03, 0.08, sim.t, leg_id=l, extratheta=extratheta)
         for m in range(3):
@@ -293,5 +299,5 @@ def goto_position(sim, robot, target_position, step_size=0.003, tolerance=0.2):
         thetas = triangle(0, -0.05, 0.03, 0.08, sim.t + 1, leg_id=l, extratheta=extratheta)
         for m in range(3):
             robot.legs[l][m].goal_position = thetas[m]
-    return           
-    
+
+    return False  # Toujours en déplacement

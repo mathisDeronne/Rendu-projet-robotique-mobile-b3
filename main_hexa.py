@@ -87,7 +87,7 @@ while True:
         #         print("✅ Tous les points ont été atteints.")
         #         break  
 
-        target_position = [0.5, -1]
+        target_position = [1, -1]
         kinematics.goto_position(sim, robot, target_position)
         # sim.setRobotPose([0, 0, 0.5], [0, 0, 0, 1])        
 
