@@ -35,7 +35,7 @@ scipy
 ### Lancement
 Maintenant que tout est installé, vous pouvez lancer le projet en tapant la commande ```python main.py``` dans votre terminal et sélectionner le mode que vous voulez sur l'interface graphique.
 
-Dans la simulation de l'haxapode lancée, vous pouvez controler ses déplacements grâce au joystick et les boutons de l'interface graphique.
+Dans la simulation de l'haxapode lancée, vous pouvez controler ses déplacements grâce aux touches du clavier Z (pour avancer), Q (aller a gauche), S (reculer), D (aller a droite).
 
 
 ## Lancer le projet sur un hexapode réel
