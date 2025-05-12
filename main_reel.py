@@ -56,8 +56,7 @@ def main():
         print("Init position reached")
         keep_going = True
         while keep_going:
-
-
+            
              # squat
 
             if len(sys.argv) > 1 and sys.argv[1] == "squat":

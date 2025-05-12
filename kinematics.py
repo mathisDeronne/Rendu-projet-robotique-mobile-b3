@@ -280,14 +280,10 @@ def goto_position(sim, robot, target_position, step_size=0.003, tolerance=0.25):
     extratheta = angle + yaw
 
     # Si proche de la cible
-    if distance < tolerance:
+    if distance <= tolerance:
         print(f"✅ Position atteinte : {target_position}")
+            
         return True
-
-    # move_x = step_size * (dx / distance)
-    # move_y = step_size * (dy / distance)
-    # new_pos = [x + move_x, y + move_y, z]
-    # p.resetBasePositionAndOrientation(sim.robot, new_pos, p.getQuaternionFromEuler([roll, pitch, yaw]))
 
     # Animation des jambes
     for l in [1, 3, 5]:

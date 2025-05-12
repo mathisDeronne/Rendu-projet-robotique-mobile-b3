@@ -5,7 +5,7 @@ import os
 
 # === Définition des modes ===
 MODES_SIM2 = ["direct", "inverse", "triangle", "circle", "segment"]
-MODES_HEXA = ["marche", "tourne_droite", "tourne_gauche", "danse_stickbug", "autre", "Standing still animation"]
+MODES_HEXA = ["marche", "tourne_droite", "tourne_gauche", "danse_stickbug", "target position", "Standing still animation"]
 MODES_REAL = ["squat", "av_ar", "dance"]
 
 CONSTANTS_PATH = "constants.py"
