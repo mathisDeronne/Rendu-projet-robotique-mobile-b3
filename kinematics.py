@@ -263,7 +263,7 @@ def triangle2(x, z, h, w, t, leg_id=None):
 import math
 import pybullet as p
 
-def goto_position(sim, robot, target_position, step_size=0.003, tolerance=0.2):
+def goto_position(sim, robot, target_position, step_size=0.003, tolerance=0.25):
     # Récupère la position et orientation du robot
     pos, ori = sim.getRobotPose()  # Tu utilises déjà ta méthode personnalisée
     x, y, z = pos
@@ -276,18 +276,17 @@ def goto_position(sim, robot, target_position, step_size=0.003, tolerance=0.2):
     distance = math.hypot(dx, dy)
 
     # Direction vers la cible
-    angle = math.atan2(dy, -dx)
-    extratheta = angle - yaw
+    angle = -(math.atan2(dy, dx))
+    extratheta = angle + yaw
 
     # Si proche de la cible
     if distance < tolerance:
         print(f"✅ Position atteinte : {target_position}")
         return True
 
-    # >>> Ajout ici : déplace légèrement la base du robot dans la direction
-    move_x = step_size * (dx / distance)
-    move_y = step_size * (dy / distance)
-    new_pos = [x + move_x, y + move_y, z]
+    # move_x = step_size * (dx / distance)
+    # move_y = step_size * (dy / distance)
+    # new_pos = [x + move_x, y + move_y, z]
     # p.resetBasePositionAndOrientation(sim.robot, new_pos, p.getQuaternionFromEuler([roll, pitch, yaw]))
 
     # Animation des jambes
