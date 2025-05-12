@@ -57,6 +57,7 @@ def main():
         keep_going = True
         while keep_going:
 
+
              # squat
 
             if len(sys.argv) > 1 and sys.argv[1] == "squat":
@@ -69,6 +70,7 @@ def main():
              # avant en arriere
 
             if len(sys.argv) > 1 and sys.argv[1] == "av_ar":
+              while True:
                 setPositionToRobot(20, 0, 0, robot, params)  
                 robot.smooth_tick_read_and_write(2, verbose=True)
                 setPositionToRobot(-20, 0, 0, robot, params)  

@@ -2,6 +2,7 @@ import math
 from constants_reel import *
 from scipy.optimize import minimize
 import numpy as np
+import pybullet as p # type: ignore
 
 
 # Given the sizes (a, b, c) of the 3 sides of a triangle, returns the angle between a and b using the alKashi theorem.
@@ -332,30 +333,61 @@ def modulopi(angle):
     return angle
 
 
-def trianglePoints(x, z, h, w):
-    """
-    Takes the geometric parameters of the triangle and returns the position of the 3 points of the triagles. Format : [[x1, y1, z1], [x2, y2, z2], [x3, y3, z3]]
-    """
-    return [[x, 0, h + z], [x, -w / 2, z], [x, w / 2, z]]
+def get_extra_angle():
+    keys = p.getKeyboardEvents()
+    if ord('d') in keys and keys[ord('d')] & p.KEY_IS_DOWN:
+        return 0
+    if ord('q') in keys and keys[ord('q')] & p.KEY_IS_DOWN:
+        return -math.pi
+    if ord('z') in keys and keys[ord('z')] & p.KEY_IS_DOWN:
+        return math.pi / 2
+    if ord('s') in keys and keys[ord('s')] & p.KEY_IS_DOWN:
+        return -math.pi / 2
+    return None
 
+# Fonction qui effectue un mouvement en forme de triangle pour la jambe
+def triangle_motion(x, z, h, w, t, sequence, leg_id=None, extratheta=0):
+    extra_angle = get_extra_angle() or 0
+    phase = t % 2
 
-def triangle(x, z, h, w, t):
-    """
-    Takes the geometric parameters of the triangle and the current time, gives the joint angles to draw the triangle with the tip of th leg. Format : [theta1, theta2, theta3]
-    """
+    if phase < 1:
+        ratio = phase
+        y1, y2, z1, z2 = sequence[0]
+    elif phase < 1.5:
+        ratio = (phase - 1) * 2
+        y1, y2, z1, z2 = sequence[1]
+    else:
+        ratio = (phase - 1.5) * 2
+        y1, y2, z1, z2 = sequence[2]
 
-    points = trianglePoints(x, z, h, w)
+    target_y = interpol(y1, y2, ratio)
+    target_z = interpol(z1, z2, ratio)
 
-    # Sélection de deux points
-    P1 = np.array(points[(int(t)) % 3])
-    P2 = np.array(points[(int(t) + 1) % 3])
+    if leg_id is None:
+        return computeIK(x, target_y, target_z)
+    else:
+        # print("etstet")
+        return computeIKOriented(x, target_y, target_z, leg_id, extra_angle+extratheta)
+# Fonction triangl 
+def triangle(x, z, h, w, t, leg_id=None, extratheta=0):
+    sequence = [
+        (w/2, -w/2, z, z),
+        (-w/2, 0, z, z + h),
+        (0, w/2, z + h, z)
+    ]
+    return triangle_motion(x, z, h, w, t, sequence, leg_id, extratheta=extratheta)
 
-    # Interpolation entre les deux points
-    T = math.fmod(t, 1)
-    pos = P2 * T + (1 - T) * P1
+def interpol(p1, p2, ratio):
+    return p1 + ratio * (p2 - p1)
 
-    return computeIK(pos[0], pos[1], pos[2])
-
+# Fonction triangle
+def triangle2(x, z, h, w, t, leg_id=None):
+    sequence = [
+        (-w/2, w/2, z, z),
+        (w/2, 0, z, z + h),
+        (0, -w/2, z + h, z)
+    ]
+    return triangle_motion(x, z, h, w, t, sequence, leg_id)
 
 def circlePoints(x, z, r, N=16):
     """
