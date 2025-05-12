@@ -191,8 +191,8 @@ def rotaton_2D(x, y, z, angle):
     return [x_rot, y_rot, z_rot]
 
 # Fonction pour calculer la cinématique inverse orientée avec un angle spécifique
-def computeIKOriented(x, y, z, leg_id, angle=None):
-    if angle is None: angle = 0
+def computeIKOriented(x, y, z, leg_id, angle=0):
+    # if angle is None: angle = 0
     
     offset_x = 0.2
     offset_y = 0
@@ -220,7 +220,7 @@ def interpol(p1, p2, ratio):
 
 # Fonction qui effectue un mouvement en forme de triangle pour la jambe
 def triangle_motion(x, z, h, w, t, sequence, leg_id=None, extratheta=0):
-    extra_angle = get_extra_angle()
+    extra_angle = get_extra_angle() or 0
     phase = t % 2
 
     if phase < 1:
