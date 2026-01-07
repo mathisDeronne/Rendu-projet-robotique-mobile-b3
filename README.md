@@ -1,9 +1,10 @@
 # Projet Robotique Mobile
 > Mathis Deronne, Guillaume Landfroid-nazac, Melkiade Ngnintedem
 
-Voici notre rendu du projet de robotique mobile. Il est possible de le lancer en simulation 3D et sur un vrai hexapode d'Ynov.
+Voici notre rendu du projet de robotique mobile B3. Il est possible de le lancer en simulation 3D et sur un vrai hexapode d'Ynov.
 
 Pas de panique ! On va vous dire comment lancer la simulation ou faire marcher le robot physiquement.
+> Avec ce programme, le robot ne peut bouger que sans lever les jambes, il bouge sans se déplacer. Nous n'avions pas réussi a faire marcher un programme pour déplacer le robot correctement.
 
 ## Lancer le projet en simulation 3D
 ### Installation
@@ -28,9 +29,15 @@ onshape-to-robot
 transforms3d
 scipy
 ```
+
+
+
 **il se peut que les librairies dépendent d'autres librairies, il faudra les installer aussi avec la commande ```pip install```.**
 
-
+Voici une commande pour tout installer d'un coup, mais si vous avez des erreurs sur les installations, il faudra les installer une par une.
+```
+pip install numpy pygame pybullet onshape-to-robot transforms3d scipy
+```
 
 ### Lancement
 Maintenant que tout est installé, vous pouvez lancer le projet en tapant la commande ```python main.py``` dans votre terminal et sélectionner le mode que vous voulez sur l'interface graphique.
@@ -41,5 +48,6 @@ Dans la simulation de l'haxapode lancée, vous pouvez controler ses déplacement
 ## Lancer le projet sur un hexapode réel
 
 Pour lancer le programme sur hexapode réel il faut relancer le programme ```main``` comme précédemment et il faut cliquer sur **"mode réel"** et sélectionner le mode que vous voulez.
+Il n'y a pas besoin de redéfinir de port COM ou d'ID de moteurs, il faut par contre désactiver le bluetooth de l'ordinateur (le programme prends tous les ports COM disponible et prend le premier).
 
 Lorsque vous avez fini avec un mode, cliquez sur **"arreter le mode actuel"** pour l'arreter

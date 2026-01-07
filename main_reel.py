@@ -9,7 +9,6 @@ import sys
 from signal import signal, SIGINT
 import traceback
 import os
-import sys
 
 
 
