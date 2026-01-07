@@ -48,6 +48,6 @@ Dans la simulation de l'haxapode lancée, vous pouvez controler ses déplacement
 ## Lancer le projet sur un hexapode réel
 
 Pour lancer le programme sur hexapode réel il faut relancer le programme ```main``` comme précédemment et il faut cliquer sur **"mode réel"** et sélectionner le mode que vous voulez.
-Il n'y a pas besoin de redéfinir de port COM ou d'ID de moteurs, il faut par contre désactiver le bluetooth de l'ordinateur (le programme prends tous les ports COM disponible et prend le premier).
+Il n'y a pas besoin de redéfinir de port COM ou d'ID de moteurs, il faut par contre désactiver le bluetooth de l'ordinateur (le programme prends tous les ports COM disponibles et prend le premier).
 
 Lorsque vous avez fini avec un mode, cliquez sur **"arreter le mode actuel"** pour l'arreter
